@@ -1,4 +1,95 @@
-/* Remove default margin and padding from html and body */
+/* Responsive styles for index.html */
+@media (max-width: 900px) {
+  .index-page .index-split-container {
+    flex-direction: column;
+    min-height: 100vh;
+    height: auto;
+  }
+  .index-page .index-left-half, .index-page .index-right-half {
+    width: 100vw;
+    min-width: 0;
+    height: auto;
+    border-right: none;
+    border-bottom: 2px solid #d1d5db;
+  }
+  .index-page .index-left-half {
+    border-bottom: 2px solid #d1d5db;
+    border-right: none;
+  }
+  .index-page .index-right-half {
+    border-bottom: none;
+  }
+  .index-page .logo-section, .index-page .login-form {
+    max-width: 98vw;
+    min-width: 0;
+    padding: 2rem 2vw;
+    height: auto;
+  }
+  .index-page .index-idea {
+    max-width: 98vw;
+    padding: 1.2rem 1vw;
+  }
+  .index-page .login-form {
+    max-width: 98vw;
+    min-width: 0;
+    margin: 2rem auto 2rem auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .index-page .logo {
+    font-size: 2rem;
+  }
+  .index-page .index-idea h3 {
+    font-size: 1.1rem;
+  }
+  .index-page .index-idea, .index-page .login-form {
+    padding: 1rem 0.5rem;
+    font-size: 1rem;
+  }
+  .index-page .login-form {
+    min-height: unset;
+    max-height: unset;
+    padding: 1.5rem 0.5rem;
+  }
+  .index-page .login-form h2 {
+    font-size: 1.3rem;
+  }
+  .index-page .login-form .signup-link {
+    margin-top: 2rem;
+  }
+  .index-page .index-idea ul {
+    font-size: 0.95rem;
+  }
+}
+.index-page .login-form h2 {
+    color: #4f46e5;
+    margin-bottom: 0.5rem;
+}
+
+.subtitle {
+    margin-top: 8px;
+}
+
+.index-page .login-form .signup-link {
+    margin-top: 3.5rem;
+}
+
+.index-page .index-right-half {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.container.index-split-container {
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    box-sizing: border-box;
+}
 html, body {
     margin: 0;
     padding: 0;
@@ -7,42 +98,12 @@ html, body {
     box-sizing: border-box;
 }
 
-.container.index-split-container {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100vw;
-    height: 100vh;
-    min-width: 0;
-    min-height: 0;
-    box-sizing: border-box;
-}
-
-.index-page .index-split-container {
-    margin: 0 !important;
-    padding: 0 !important;
-    width: 100vw;
-    height: 100vh;
-    min-width: 0;
-    min-height: 0;
-    box-sizing: border-box;
-}
-
 .index-page .index-left-half, .index-page .index-right-half {
-    margin: 0 !important;
-    padding: 0 !important;
     width: 50vw;
-    height: 100vh;
-    min-width: 0;
-    min-height: 0;
     box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 .index-page .logo-section, .index-page .login-form {
-    margin: 0 !important;
-    padding: 0 !important;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
@@ -50,56 +111,25 @@ html, body {
     flex-direction: column;
     justify-content: center;
 }
+
 .index-page .index-split-container {
     display: flex;
     min-height: 100vh;
     background: linear-gradient(90deg, #e3ecfa 0%, #f5f7fa 50%, #fff 100%);
 }
 
-.index-page .index-left-half, .index-page .index-right-half {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 0;
-}
-
-.index-page .index-left-half {
-    flex: 1.1 1 0;
-    background: transparent;
-    border-right: none;
-    padding: 0;
-    justify-content: center;
-    align-items: stretch;
-    min-width: 0;
-}
-
-.index-page .index-right-half {
-    flex: 1.3 1 0;
-    background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.index-page .logo-section {
-    text-align: left;
-    max-width: 540px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 4vw 3vw 4vw 3vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    min-height: 100vh;
-}
-
 .index-page .index-idea {
     margin-top: 2.5rem;
     background: rgba(255,255,255,0.85);
     border-radius: 10px;
-    padding: 1.5rem 1.5rem 1.5rem 1.5rem;
+    padding: 1.5rem 2rem;
     box-shadow: 0 2px 12px rgba(0,0,0,0.04);
     font-size: 1.08rem;
+    max-width: 570px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
 }
 .index-page .index-idea h3 {
     margin-top: 0;
@@ -107,13 +137,15 @@ html, body {
     font-size: 1.25rem;
 }
 .index-page .index-idea ul {
-    margin: 1rem 0 0 1.2rem;
-    padding: 0;
+    margin: 1.2rem 0 0 0;
+    padding-left: 1.3em;
     color: #3a3a3a;
     font-size: 1rem;
+    list-style: disc inside;
 }
 .index-page .index-idea li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.6rem;
+    padding-left: 0.1em;
 }
 
 .index-page .login-form {
@@ -121,11 +153,13 @@ html, body {
     max-width: 440px;
     margin: 0 auto;
     background: rgba(255,255,255,0.97);
-    padding: 3.5rem 2.5rem 3rem 2.5rem;
+    padding: 2.5rem 2rem 2rem 2rem;
+    border: 0.5px solid #4f46e5;
     border-radius: 18px;
     box-shadow: 0 4px 32px rgba(42,77,143,0.10);
     font-size: 1.15rem;
-    min-height: 420px;
+    min-height: 380px;
+    max-height: 480px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -135,15 +169,6 @@ html, body {
     text-align: center;
 }
 
-.index-page .login-form {
-    width: 100%;
-    max-width: 350px;
-    margin: 0 auto;
-    background: #fff;
-    padding: 2.5rem 2rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 16px rgba(0,0,0,0.07);
-}
 /* CSS Variables for easy customization */
 :root {
     --primary-color: #4f46e5;
@@ -186,7 +211,6 @@ body {
     padding: 0 1rem;
 }
 
-/* Typography */
 h1, h2, h3, h4, h5, h6 {
     font-weight: 600;
     line-height: 1.3;
@@ -266,7 +290,8 @@ p {
 
 .input-group label {
     display: block;
-    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+    margin-bottom: 1.5rem;
     font-weight: 500;
     color: var(--text-primary);
 }
@@ -280,6 +305,7 @@ p {
     border-radius: var(--border-radius);
     font-size: 0.875rem;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    margin-bottom: 1.2rem;
 }
 
 .input-group input:focus,
@@ -318,7 +344,7 @@ p {
 .tagline {
     font-size: 1.125rem;
     color: var(--text-secondary);
-    margin: 0;
+    margin: 0 0 30px 0;
 }
 
 .login-form {
@@ -859,7 +885,6 @@ p {
     left: 0;
     top: 0;
     width: 100%;
-    height: 100%;
     background-color: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(4px);
 }
