@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ConnectIn - Student Networking Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="index-page">
+    <div class="container index-split-container">
+        <div class="index-left-half">
+            <div class="logo-section">
+                <h1 class="logo">ConnectIn</h1>
+                <p class="tagline">Connect. Collaborate. Create.</p>
+                <div class="index-idea">
+                    <h3>What is ConnectIn?</h3>
+                    <p>
+                        Discover like-minded individuals, share ideas, and grow your network effortlessly.
+                    </p>
+                    <ul>
+                        <li>Find and connect with students from your university</li>
+                        <li>Collaborate on academic and extracurricular projects</li>
+                        <li>Expand your professional and social network</li>
+                        <li>Stay updated with campus events and opportunities</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="index-right-half">
+            <div class="login-form">
+                <h2>Welcome Back</h2>
+                <p class="subtitle">Enter your email to continue</p>
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@university.edu" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Continue</button>
+                </form>
+                <p class="signup-link">
+                    New to ConnectIn? <a href="#" onclick="showSignupMessage()">Join now</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            if (email) {
+                localStorage.setItem('userEmail', email);
+                window.location.href = 'otp.html';
+            }
+        });
+
+        function showSignupMessage() {
+            alert('Sign up functionality coming soon! For demo, use any email to continue.');
+        }
+    </script>
+</body>
+</html>

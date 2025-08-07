@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ConnectIn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">ConnectIn</h1>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link active">Dashboard</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="requests.html" class="nav-link">Requests</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="dashboard-header">
+                <h2>Find Your Next Collaborator</h2>
+                <p>Connect with talented students and build amazing projects together</p>
+            </div>
+
+            <div class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Search by name, role, or domain..." class="search-input">
+                    <button onclick="searchProfiles()" class="search-btn">Search</button>
+                </div>
+                
+                <div class="filter-tabs">
+                    <button class="filter-tab active" onclick="filterBy('all')">All</button>
+                    <button class="filter-tab" onclick="filterBy('frontend')">Frontend</button>
+                    <button class="filter-tab" onclick="filterBy('backend')">Backend</button>
+                    <button class="filter-tab" onclick="filterBy('design')">Design</button>
+                    <button class="filter-tab" onclick="filterBy('data')">Data Science</button>
+                </div>
+            </div>
+
+            <div class="profiles-grid" id="profilesGrid">
+                <!-- Profiles will be populated by JavaScript -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Request Modal -->
+    <div id="requestModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Send Collaboration Request</h3>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <p>Sending request to: <strong id="recipientName"></strong></p>
+                <form id="requestForm">
+                    <div class="input-group">
+                        <label for="projectTitle">Project Title</label>
+                        <input type="text" id="projectTitle" placeholder="e.g., E-commerce Mobile App" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="requestMessage">Message</label>
+                        <textarea id="requestMessage" rows="4" placeholder="Describe your project idea and why you'd like to collaborate..." required></textarea>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" onclick="closeModal()" class="btn-secondary">Cancel</button>
+                        <button type="submit" class="btn-primary">Send Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+
+        // Mock data for profiles
+        const mockProfiles = [
+            {
+                id: 1,
+                name: "Sarah Chen",
+                role: "Frontend Developer",
+                domain: "Web Development",
+                year: "3rd Year",
+                degree: "Computer Science",
+                experience: "2 years",
+                linkedin: "https://linkedin.com/in/sarahchen",
+                interests: ["React", "UI/UX", "Mobile Apps"]
+            },
+            {
+                id: 2,
+                name: "Alex Rodriguez",
+                role: "Backend Developer",
+                domain: "Software Engineering",
+                year: "4th Year",
+                degree: "Software Engineering",
+                experience: "3 years",
+                linkedin: "https://linkedin.com/in/alexrodriguez",
+                interests: ["Node.js", "Python", "Cloud Computing"]
+            },
+            {
+                id: 3,
+                name: "Maya Patel",
+                role: "UI/UX Designer",
+                domain: "Design",
+                year: "2nd Year",
+                degree: "Design",
+                experience: "1 year",
+                linkedin: "https://linkedin.com/in/mayapatel",
+                interests: ["Figma", "User Research", "Prototyping"]
+            },
+            {
+                id: 4,
+                name: "David Kim",
+                role: "Data Scientist",
+                domain: "Data Science",
+                year: "3rd Year",
+                degree: "Data Science",
+                experience: "2 years",
+                linkedin: "https://linkedin.com/in/davidkim",
+                interests: ["Machine Learning", "Python", "Analytics"]
+            },
+            {
+                id: 5,
+                name: "Emma Johnson",
+                role: "Full Stack Developer",
+                domain: "Web Development",
+                year: "4th Year",
+                degree: "Computer Science",
+                experience: "3 years",
+                linkedin: "https://linkedin.com/in/emmajohnson",
+                interests: ["JavaScript", "React", "Node.js"]
+            },
+            {
+                id: 6,
+                name: "Ryan Thompson",
+                role: "Mobile Developer",
+                domain: "Mobile Development",
+                year: "3rd Year",
+                degree: "Computer Science",
+                experience: "2 years",
+                linkedin: "https://linkedin.com/in/ryanthompson",
+                interests: ["React Native", "iOS", "Android"]
+            }
+        ];
+
+        let currentProfiles = [...mockProfiles];
+        let selectedRecipient = null;
+
+        function renderProfiles(profiles) {
+            const grid = document.getElementById('profilesGrid');
+            grid.innerHTML = profiles.map(profile => `
+                <div class="profile-card">
+                    <div class="profile-avatar">
+                        <div class="avatar-placeholder">${profile.name.split(' ').map(n => n[0]).join('')}</div>
+                    </div>
+                    <div class="profile-info">
+                        <h3 class="profile-name">${profile.name}</h3>
+                        <p class="profile-role">${profile.role}</p>
+                        <p class="profile-domain">${profile.domain}</p>
+                        <p class="profile-year">${profile.year} • ${profile.degree}</p>
+                        <div class="profile-interests">
+                            ${profile.interests.slice(0, 2).map(interest => `<span class="interest-tag">${interest}</span>`).join('')}
+                        </div>
+                    </div>
+                    <button class="btn-request" onclick="openRequestModal(${profile.id})">Send Request</button>
+                </div>
+            `).join('');
+        }
+
+        function searchProfiles() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = mockProfiles.filter(profile => 
+                profile.name.toLowerCase().includes(query) ||
+                profile.role.toLowerCase().includes(query) ||
+                profile.domain.toLowerCase().includes(query) ||
+                profile.interests.some(interest => interest.toLowerCase().includes(query))
+            );
+            currentProfiles = filtered;
+            renderProfiles(filtered);
+        }
+
+        function filterBy(category) {
+            // Update active tab
+            document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            let filtered;
+            if (category === 'all') {
+                filtered = mockProfiles;
+            } else {
+                filtered = mockProfiles.filter(profile => 
+                    profile.role.toLowerCase().includes(category) ||
+                    profile.domain.toLowerCase().includes(category) ||
+                    profile.interests.some(interest => interest.toLowerCase().includes(category))
+                );
+            }
+            currentProfiles = filtered;
+            renderProfiles(filtered);
+        }
+
+        function openRequestModal(profileId) {
+            const profile = mockProfiles.find(p => p.id === profileId);
+            selectedRecipient = profile;
+            document.getElementById('recipientName').textContent = profile.name;
+            document.getElementById('requestModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('requestModal').style.display = 'none';
+            document.getElementById('requestForm').reset();
+        }
+
+        document.getElementById('requestForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const title = document.getElementById('projectTitle').value;
+            const message = document.getElementById('requestMessage').value;
+            
+            // Save request to localStorage (mock backend)
+            const requests = JSON.parse(localStorage.getItem('sentRequests') || '[]');
+            requests.push({
+                id: Date.now(),
+                recipient: selectedRecipient,
+                title: title,
+                message: message,
+                timestamp: new Date().toISOString(),
+                status: 'pending'
+            });
+            localStorage.setItem('sentRequests', JSON.stringify(requests));
+            
+            alert('Request sent successfully!');
+            closeModal();
+        });
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchProfiles();
+            }
+        });
+
+        // Initial render
+        renderProfiles(mockProfiles);
+    </script>
+</body>
+</html>

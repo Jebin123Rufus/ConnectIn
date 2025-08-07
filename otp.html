@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Email - ConnectIn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="otp-container">
+            <div class="logo-section">
+                <h1 class="logo">ConnectIn</h1>
+            </div>
+            
+            <div class="otp-form">
+                <h2>Verify Your Email</h2>
+                <p class="subtitle">We've sent a 6-digit code to <span id="userEmail"></span></p>
+                
+                <form id="otpForm">
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                        <input type="text" class="otp-digit" maxlength="1" pattern="[0-9]">
+                    </div>
+                    
+                    <button type="submit" class="btn-primary">Verify & Continue</button>
+                </form>
+                
+                <p class="resend-link">
+                    Didn't receive the code? <a href="#" onclick="resendCode()">Resend</a>
+                </p>
+                
+                <a href="index.html" class="back-link">← Back to login</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Display user email
+        document.getElementById('userEmail').textContent = localStorage.getItem('userEmail') || 'your email';
+
+        // OTP input handling
+        const otpInputs = document.querySelectorAll('.otp-digit');
+        otpInputs.forEach((input, index) => {
+            input.addEventListener('input', function() {
+                if (this.value.length === 1 && index < otpInputs.length - 1) {
+                    otpInputs[index + 1].focus();
+                }
+            });
+            
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Backspace' && this.value === '' && index > 0) {
+                    otpInputs[index - 1].focus();
+                }
+            });
+        });
+
+        document.getElementById('otpForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const otp = Array.from(otpInputs).map(input => input.value).join('');
+            if (otp.length === 6) {
+                // For demo, accept any 6-digit code
+                localStorage.setItem('isLoggedIn', 'true');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Please enter a complete 6-digit code');
+            }
+        });
+
+        function resendCode() {
+            alert('Code resent! For demo, use any 6-digit code.');
+        }
+    </script>
+</body>
+</html>

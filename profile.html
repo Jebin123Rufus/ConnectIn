@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - ConnectIn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">ConnectIn</h1>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="profile.html" class="nav-link active">Profile</a>
+                <a href="requests.html" class="nav-link">Requests</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="profile-container">
+                <div class="profile-header">
+                    <h2>My Profile</h2>
+                    <p>Keep your profile updated to connect with the right collaborators</p>
+                </div>
+
+                <form id="profileForm" class="profile-form">
+                    <div class="form-section">
+                        <h3>Basic Information</h3>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="fullName">Full Name</label>
+                                <input type="text" id="fullName" name="fullName" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="input-group">
+                                <label for="email">Email</label>
+                                <input type="email" id="email" name="email" placeholder="your.email@university.edu" readonly>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="degree">Degree</label>
+                                <select id="degree" name="degree" required>
+                                    <option value="">Select your degree</option>
+                                    <option value="Computer Science">Computer Science</option>
+                                    <option value="Software Engineering">Software Engineering</option>
+                                    <option value="Data Science">Data Science</option>
+                                    <option value="Information Technology">Information Technology</option>
+                                    <option value="Design">Design</option>
+                                    <option value="Business">Business</option>
+                                    <option value="Engineering">Engineering</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="year">Year of Study</label>
+                                <select id="year" name="year" required>
+                                    <option value="">Select year</option>
+                                    <option value="1st Year">1st Year</option>
+                                    <option value="2nd Year">2nd Year</option>
+                                    <option value="3rd Year">3rd Year</option>
+                                    <option value="4th Year">4th Year</option>
+                                    <option value="Graduate">Graduate</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>Professional Information</h3>
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label for="role">Primary Role</label>
+                                <select id="role" name="role" required>
+                                    <option value="">Select your role</option>
+                                    <option value="Frontend Developer">Frontend Developer</option>
+                                    <option value="Backend Developer">Backend Developer</option>
+                                    <option value="Full Stack Developer">Full Stack Developer</option>
+                                    <option value="Mobile Developer">Mobile Developer</option>
+                                    <option value="UI/UX Designer">UI/UX Designer</option>
+                                    <option value="Data Scientist">Data Scientist</option>
+                                    <option value="Product Manager">Product Manager</option>
+                                    <option value="DevOps Engineer">DevOps Engineer</option>
+                                    <option value="Other">Other</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label for="experience">Work Experience</label>
+                                <select id="experience" name="experience" required>
+                                    <option value="">Select experience level</option>
+                                    <option value="No experience">No experience</option>
+                                    <option value="Less than 1 year">Less than 1 year</option>
+                                    <option value="1-2 years">1-2 years</option>
+                                    <option value="2-3 years">2-3 years</option>
+                                    <option value="3+ years">3+ years</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="domains">Domains of Interest</label>
+                            <div class="checkbox-group" id="domainsGroup">
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Web Development">
+                                    <span>Web Development</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Mobile Development">
+                                    <span>Mobile Development</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Data Science">
+                                    <span>Data Science</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Machine Learning">
+                                    <span>Machine Learning</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="UI/UX Design">
+                                    <span>UI/UX Design</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Cloud Computing">
+                                    <span>Cloud Computing</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Cybersecurity">
+                                    <span>Cybersecurity</span>
+                                </label>
+                                <label class="checkbox-item">
+                                    <input type="checkbox" name="domains" value="Game Development">
+                                    <span>Game Development</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label for="linkedin">LinkedIn Profile</label>
+                            <input type="url" id="linkedin" name="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h3>About You</h3>
+                        <div class="input-group">
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" name="bio" rows="4" placeholder="Tell others about yourself, your interests, and what kind of projects you'd like to work on..."></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" onclick="resetForm()" class="btn-secondary">Reset</button>
+                        <button type="submit" class="btn-primary">Save Profile</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+
+        // Load saved profile data
+        function loadProfile() {
+            const savedProfile = JSON.parse(localStorage.getItem('userProfile') || '{}');
+            const userEmail = localStorage.getItem('userEmail');
+            
+            // Set email
+            document.getElementById('email').value = userEmail || '';
+            
+            // Load other fields
+            Object.keys(savedProfile).forEach(key => {
+                const element = document.getElementById(key);
+                if (element) {
+                    if (element.type === 'checkbox') {
+                        element.checked = savedProfile[key];
+                    } else {
+                        element.value = savedProfile[key];
+                    }
+                }
+            });
+
+            // Load domains (checkboxes)
+            if (savedProfile.domains && Array.isArray(savedProfile.domains)) {
+                savedProfile.domains.forEach(domain => {
+                    const checkbox = document.querySelector(`input[name="domains"][value="${domain}"]`);
+                    if (checkbox) checkbox.checked = true;
+                });
+            }
+        }
+
+        // Save profile
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            const profileData = {};
+            
+            // Get regular form fields
+            for (let [key, value] of formData.entries()) {
+                if (key !== 'domains') {
+                    profileData[key] = value;
+                }
+            }
+            
+            // Get selected domains
+            const selectedDomains = Array.from(document.querySelectorAll('input[name="domains"]:checked'))
+                .map(checkbox => checkbox.value);
+            profileData.domains = selectedDomains;
+            
+            // Save to localStorage
+            localStorage.setItem('userProfile', JSON.stringify(profileData));
+            
+            alert('Profile saved successfully!');
+        });
+
+        function resetForm() {
+            if (confirm('Are you sure you want to reset all fields?')) {
+                document.getElementById('profileForm').reset();
+                document.getElementById('email').value = localStorage.getItem('userEmail') || '';
+            }
+        }
+
+        // Load profile on page load
+        loadProfile();
+    </script>
+</body>
+</html>

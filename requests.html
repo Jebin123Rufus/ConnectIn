@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests - ConnectIn</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">ConnectIn</h1>
+            <div class="nav-links">
+                <a href="dashboard.html" class="nav-link">Dashboard</a>
+                <a href="profile.html" class="nav-link">Profile</a>
+                <a href="requests.html" class="nav-link active">Requests</a>
+                <a href="#" onclick="logout()" class="nav-link">Logout</a>
+            </div>
+            <div class="mobile-menu-toggle" onclick="toggleMobileMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <div class="container">
+            <div class="requests-container">
+                <div class="requests-header">
+                    <h2>Collaboration Requests</h2>
+                    <p>Manage incoming project collaboration requests</p>
+                </div>
+
+                <div class="requests-tabs">
+                    <button class="tab-btn active" onclick="showTab('incoming')">Incoming</button>
+                    <button class="tab-btn" onclick="showTab('sent')">Sent</button>
+                    <button class="tab-btn" onclick="showTab('accepted')">Accepted</button>
+                </div>
+
+                <div id="incomingTab" class="tab-content active">
+                    <div class="requests-list" id="incomingRequests">
+                        <!-- Incoming requests will be populated here -->
+                    </div>
+                </div>
+
+                <div id="sentTab" class="tab-content">
+                    <div class="requests-list" id="sentRequests">
+                        <!-- Sent requests will be populated here -->
+                    </div>
+                </div>
+
+                <div id="acceptedTab" class="tab-content">
+                    <div class="requests-list" id="acceptedRequests">
+                        <!-- Accepted requests will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- LinkedIn Profile Modal -->
+    <div id="linkedinModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Connect on LinkedIn</h3>
+                <span class="close" onclick="closeLinkedInModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="linkedin-info">
+                    <div class="profile-avatar">
+                        <div class="avatar-placeholder" id="linkedinAvatar"></div>
+                    </div>
+                    <div class="linkedin-details">
+                        <h4 id="linkedinName"></h4>
+                        <p id="linkedinRole"></p>
+                        <p class="success-message">🎉 Request accepted! You can now connect on LinkedIn.</p>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button onclick="closeLinkedInModal()" class="btn-secondary">Close</button>
+                    <a id="linkedinLink" href="#" target="_blank" class="btn-primary">View LinkedIn Profile</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Check if user is logged in
+        if (!localStorage.getItem('isLoggedIn')) {
+            window.location.href = 'index.html';
+        }
+
+        // Mock incoming requests data
+        const mockIncomingRequests = [
+            {
+                id: 1,
+                sender: {
+                    name: "John Smith",
+                    role: "Backend Developer",
+                    year: "4th Year",
+                    linkedin: "https://linkedin.com/in/johnsmith"
+                },
+                title: "E-commerce Platform",
+                message: "Hi! I'm working on an e-commerce platform using Node.js and MongoDB. I saw your frontend skills and would love to collaborate. The project involves building a modern shopping experience with React.",
+                timestamp: "2024-01-15T10:30:00Z",
+                status: "pending"
+            },
+            {
+                id: 2,
+                sender: {
+                    name: "Lisa Wang",
+                    role: "UI/UX Designer",
+                    year: "3rd Year",
+                    linkedin: "https://linkedin.com/in/lisawang"
+                },
+                title: "Mental Health App",
+                message: "I'm designing a mental health app for students and need a developer to bring it to life. The app focuses on mindfulness and peer support. Would you be interested in collaborating?",
+                timestamp: "2024-01-14T15:45:00Z",
+                status: "pending"
+            },
+            {
+                id: 3,
+                sender: {
+                    name: "Mike Chen",
+                    role: "Data Scientist",
+                    year: "2nd Year",
+                    linkedin: "https://linkedin.com/in/mikechen"
+                },
+                title: "Campus Analytics Dashboard",
+                message: "Building a dashboard to analyze campus data and student engagement. Looking for someone with web development skills to create the frontend. This could be a great portfolio project!",
+                timestamp: "2024-01-13T09:20:00Z",
+                status: "pending"
+            }
+        ];
+
+        let incomingRequests = [...mockIncomingRequests];
+        let sentRequests = JSON.parse(localStorage.getItem('sentRequests') || '[]');
+        let acceptedRequests = JSON.parse(localStorage.getItem('acceptedRequests') || '[]');
+
+        function showTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + 'Tab').classList.add('active');
+
+            // Render appropriate content
+            switch(tabName) {
+                case 'incoming':
+                    renderIncomingRequests();
+                    break;
+                case 'sent':
+                    renderSentRequests();
+                    break;
+                case 'accepted':
+                    renderAcceptedRequests();
+                    break;
+            }
+        }
+
+        function renderIncomingRequests() {
+            const container = document.getElementById('incomingRequests');
+            const pendingRequests = incomingRequests.filter(req => req.status === 'pending');
+            
+            if (pendingRequests.length === 0) {
+                container.innerHTML = '<div class="empty-state">No incoming requests at the moment.</div>';
+                return;
+            }
+
+            container.innerHTML = pendingRequests.map(request => `
+                <div class="request-card">
+                    <div class="request-header">
+                        <div class="sender-info">
+                            <div class="avatar-placeholder">${request.sender.name.split(' ').map(n => n[0]).join('')}</div>
+                            <div class="sender-details">
+                                <h4>${request.sender.name}</h4>
+                                <p>${request.sender.role} • ${request.sender.year}</p>
+                            </div>
+                        </div>
+                        <div class="request-time">${formatTime(request.timestamp)}</div>
+                    </div>
+                    <div class="request-content">
+                        <h5 class="project-title">${request.title}</h5>
+                        <p class="request-message">${request.message}</p>
+                    </div>
+                    <div class="request-actions">
+                        <button onclick="rejectRequest(${request.id})" class="btn-secondary">Decline</button>
+                        <button onclick="acceptRequest(${request.id})" class="btn-primary">Accept</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderSentRequests() {
+            const container = document.getElementById('sentRequests');
+            
+            if (sentRequests.length === 0) {
+                container.innerHTML = '<div class="empty-state">No sent requests yet. Visit the dashboard to connect with others!</div>';
+                return;
+            }
+
+            container.innerHTML = sentRequests.map(request => `
+                <div class="request-card">
+                    <div class="request-header">
+                        <div class="sender-info">
+                            <div class="avatar-placeholder">${request.recipient.name.split(' ').map(n => n[0]).join('')}</div>
+                            <div class="sender-details">
+                                <h4>${request.recipient.name}</h4>
+                                <p>${request.recipient.role} • ${request.recipient.year}</p>
+                            </div>
+                        </div>
+                        <div class="request-status status-${request.status}">${request.status}</div>
+                    </div>
+                    <div class="request-content">
+                        <h5 class="project-title">${request.title}</h5>
+                        <p class="request-message">${request.message}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderAcceptedRequests() {
+            const container = document.getElementById('acceptedRequests');
+            
+            if (acceptedRequests.length === 0) {
+                container.innerHTML = '<div class="empty-state">No accepted collaborations yet.</div>';
+                return;
+            }
+
+            container.innerHTML = acceptedRequests.map(request => `
+                <div class="request-card accepted">
+                    <div class="request-header">
+                        <div class="sender-info">
+                            <div class="avatar-placeholder">${request.sender.name.split(' ').map(n => n[0]).join('')}</div>
+                            <div class="sender-details">
+                                <h4>${request.sender.name}</h4>
+                                <p>${request.sender.role} • ${request.sender.year}</p>
+                            </div>
+                        </div>
+                        <div class="collaboration-badge">✅ Collaborating</div>
+                    </div>
+                    <div class="request-content">
+                        <h5 class="project-title">${request.title}</h5>
+                        <p class="request-message">${request.message}</p>
+                    </div>
+                    <div class="request-actions">
+                        <button onclick="showLinkedInProfile('${request.sender.name}', '${request.sender.role}', '${request.sender.linkedin}')" class="btn-primary">View LinkedIn</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function acceptRequest(requestId) {
+            const request = incomingRequests.find(req => req.id === requestId);
+            if (request) {
+                request.status = 'accepted';
+                acceptedRequests.push(request);
+                localStorage.setItem('acceptedRequests', JSON.stringify(acceptedRequests));
+                
+                // Show LinkedIn profile immediately
+                showLinkedInProfile(request.sender.name, request.sender.role, request.sender.linkedin);
+                
+                renderIncomingRequests();
+            }
+        }
+
+        function rejectRequest(requestId) {
+            incomingRequests = incomingRequests.filter(req => req.id !== requestId);
+            renderIncomingRequests();
+        }
+
+        function showLinkedInProfile(name, role, linkedinUrl) {
+            document.getElementById('linkedinName').textContent = name;
+            document.getElementById('linkedinRole').textContent = role;
+            document.getElementById('linkedinAvatar').textContent = name.split(' ').map(n => n[0]).join('');
+            document.getElementById('linkedinLink').href = linkedinUrl;
+            document.getElementById('linkedinModal').style.display = 'block';
+        }
+
+        function closeLinkedInModal() {
+            document.getElementById('linkedinModal').style.display = 'none';
+        }
+
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffInHours = Math.floor((now - date) / (1000 * 60 * 60));
+            
+            if (diffInHours < 1) return 'Just now';
+            if (diffInHours < 24) return `${diffInHours}h ago`;
+            return `${Math.floor(diffInHours / 24)}d ago`;
+        }
+
+        // Initial render
+        renderIncomingRequests();
+    </script>
+</body>
+</html>
