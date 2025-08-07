@@ -1,3 +1,44 @@
+/* Show mobile logo above login form on small screens in index.html */
+@media (max-width: 600px) {
+  .index-page .logo-section {
+    display: none;
+  }
+  .index-page .mobile-logo {
+    display: block;
+  }
+}
+/* Show mobile logo above form on small screens in otp.html */
+@media (max-width: 600px) {
+  body .container .otp-container .logo-section {
+    display: none;
+  }
+  body .container .otp-container .mobile-logo {
+    display: block;
+  }
+}
+@media (max-width: 600px) {
+  .index-page .index-left-half {
+    display: none !important;
+  }
+  .index-page .index-right-half {
+    width: 100vw !important;
+    min-width: 0;
+    height: 100vh !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+  }
+  .index-page .login-form {
+    max-width: 98vw;
+    min-width: 0;
+    margin: 0 auto;
+    padding: 1.5rem 0.5rem;
+    min-height: unset;
+    max-height: unset;
+    box-shadow: 0 2px 12px rgba(42,77,143,0.10);
+  }
+}
 /* Responsive styles for index.html */
 @media (max-width: 900px) {
   .index-page .index-split-container {
