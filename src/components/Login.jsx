@@ -14,8 +14,8 @@ export default function Login() {
       const decoded = jwtDecode(credentialResponse.credential);
 
       const res = await axios.post("http://localhost:5000/auth/google", decoded);
+      const email = res?.data?.email ?? res?.data?.user?.email ?? decoded.email;
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
       navigate("/landing");
 
     } catch (err) {
@@ -31,7 +31,7 @@ export default function Login() {
         <GoogleLogin onSuccess={handleLogin} onError={() => console.error("Login Failed!!")}
         size="large"
         shape="rectangular"
-        text="continue_with"
+        text="signup_with"
         />
       </div>
     </>
