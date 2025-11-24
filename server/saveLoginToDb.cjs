@@ -13,11 +13,11 @@ async function saveLoginToDB(userData) {
 
     if (existingUser) {
       console.log(`User with email ${userData.email} already exists.`);
-      return { status: "exists", user: existingUser };
+      return { status: "exists", email: existingUser.email, user: existingUser };
     }
 
     const result = await loginsCollection.insertOne(userData);
-    return { status: "inserted", userId: result.insertedId };
+    return { status: "inserted", email: userData.email, userId: result.insertedId };
 
   } catch (err) {
     console.error("Error saving login:", err);
