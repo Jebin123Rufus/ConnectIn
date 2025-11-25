@@ -102,7 +102,8 @@ export default function OrganizationForm() {
     // Ensure email is NOT already registered in Organizations
     const orgExists = await checkOrgExists(email);
     if (orgExists === true) {
-      alert("User already exist");
+      alert("Waiting For Approval !!");
+      setApprovalPending(true);
       setIsSubmitting(false);
       return;
     }
