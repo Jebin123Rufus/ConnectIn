@@ -16,6 +16,18 @@ export default function Login() {
       const res = await axios.post("http://localhost:5000/auth/google", decoded);
       const email = res?.data?.email ?? res?.data?.user?.email ?? decoded.email;
 
+      // Check if this email has an organization with access:true
+      try {
+        const orgRes = await axios.get("http://localhost:5000/org/exists", { params: { email } });
+        const org = orgRes?.data?.org;
+        if (org && org.access === true) {
+          navigate("/org/dashboard");
+          return;
+        }
+      } catch (e) {
+        console.warn("Could not check org access:", e);
+      }
+
       navigate("/landing");
 
     } catch (err) {

@@ -1,0 +1,50 @@
+.org-form {
+  width: 400px;
+  margin: 50px auto;
+  padding: 20px;
+  background: white;
+  border-radius: 12px;
+  border: 1.5px solid #0077ff;
+  box-shadow: 0px 6px 20px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.org-form h2 {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.org-form input,
+.org-form textarea,
+.org-form select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+}
+
+.org-form button {
+  padding: 12px;
+  background: #0077ff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.org-form button:hover {
+  background: #005fd1;
+}
+
+.error {
+  background: #ffb3b3;
+  color: #b30000;
+  padding: 8px;
+  border-radius: 5px;
+  text-align: center;
+}
