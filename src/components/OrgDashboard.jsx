@@ -1,5 +1,7 @@
 export default function OrgDashboard() {
   return (
-    <div>Welcome to Organisation's Dashboard</div>
+    <div>
+      <h1>Welcome to Organisation's Dashboard</h1>
+    </div>
   )
 }
