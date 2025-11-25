@@ -25,16 +25,22 @@
   font-size: 15px;
   outline: none;
 }
+.org-form button:hover {
+  background: #005fd1;
+}
 
 .org-form button {
-  padding: 12px;
+  padding: 8px 16px;
   background: #0077ff;
   color: white;
-  font-size: 16px;
+  font-size: 14px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
   transition: 0.2s;
+  align-self: center;
+  height: auto;
+  min-height: unset;
 }
 
 .org-form button:hover {
